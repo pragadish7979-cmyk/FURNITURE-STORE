@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oak &amp; Home | Furniture Store</title>
+  <meta name="description" content="Oak & Home is a student demo furniture store with a catalogue, cart, reviews, and an admin page.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="logo" href="#catalogue-title" id="logo-link">
+        <span aria-hidden="true">🌳 </span>Oak &amp; Home
+      </a>
+      <div class="header-tools">
+        <p id="user-label" class="user-label" hidden></p>
+        <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      </div>
+      <nav id="site-nav" aria-label="Main">
+        <button type="button" class="nav-btn" data-view="home">Catalogue</button>
+        <button type="button" class="nav-btn" data-view="cart" id="cart-link">
+          Cart <span id="cart-count" class="cart-count">0</span>
+        </button>
+        <button type="button" class="nav-btn" data-view="account" id="account-link">Log in</button>
+        <button type="button" class="nav-btn" data-view="admin" id="admin-link" hidden>Admin</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Home and catalogue -->
+    <section id="home-view" class="view">
+      <div class="hero">
+        <div class="wrap hero-grid">
+          <div>
+            <p class="eyebrow eyebrow-light">Student demo store</p>
+            <h1 tabindex="-1">Furniture that makes a house feel like home</h1>
+            <p>Warm oak pieces for the living room, bedroom, dining space, and home office. Prices are sample amounts in rupees for this class project.</p>
+            <button type="button" class="btn btn-light" id="shop-now">Browse the catalogue</button>
+          </div>
+          <div class="hero-art" aria-hidden="true">
+            <span>🛋️</span>
+            <strong>Made to be lived on</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="wrap">
+        <div class="section-heading">
+          <h2 id="catalogue-title" tabindex="-1">Catalogue</h2>
+          <p>Search by name or description, filter by room, and sort the list.</p>
+        </div>
+
+        <form id="filter-form" class="catalogue-tools" role="search">
+          <div class="field">
+            <label for="search-input">Search</label>
+            <input id="search-input" type="search" placeholder="Try sofa, oak, desk" maxlength="80">
+          </div>
+          <div class="field">
+            <label for="category-filter">Category</label>
+            <select id="category-filter">
+              <option value="All">All categories</option>
+              <option>Living Room</option>
+              <option>Bedroom</option>
+              <option>Dining</option>
+              <option>Office</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="sort-select">Sort</label>
+            <select id="sort-select">
+              <option value="featured">Featured</option>
+              <option value="price-asc">Price: low to high</option>
+              <option value="price-desc">Price: high to low</option>
+              <option value="rating">Rating</option>
+            </select>
+          </div>
+          <button type="button" class="btn btn-secondary" id="reset-filters">Reset</button>
+        </form>
+
+        <p id="results-count" class="results-count" aria-live="polite"></p>
+        <div id="product-list" class="product-grid"></div>
+        <p id="empty-results" class="empty-state" role="status" hidden></p>
+      </div>
+    </section>
+
+    <!-- Product details -->
+    <section id="product-view" class="view" hidden>
+      <div class="wrap">
+        <button type="button" class="btn btn-secondary" id="back-to-catalogue">Back to catalogue</button>
+        <div id="product-detail"></div>
+      </div>
+    </section>
+
+    <!-- Cart and order request -->
+    <section id="cart-view" class="view" hidden>
+      <div class="wrap">
+        <h1 tabindex="-1">Your cart</h1>
+        <p>Change quantities, remove items, then send a demo order request. No payment is taken.</p>
+        <p id="cart-empty" class="empty-state" hidden>Your cart is empty. Browse the catalogue to add furniture.</p>
+        <div id="cart-items"></div>
+
+        <div id="cart-summary" class="panel summary-panel" hidden>
+          <h2>Summary</h2>
+          <p class="summary-line"><span>Subtotal</span> <strong id="summary-subtotal">₹0</strong></p>
+          <p class="summary-line"><span>Delivery</span> <strong>Free in this demo</strong></p>
+          <p class="summary-line summary-total"><span>Total</span> <strong id="summary-total">₹0</strong></p>
+          <p class="hint">The total is an estimate for the demo. It is not a charge.</p>
+        </div>
+
+        <div id="checkout-panel" class="panel" hidden>
+          <h2>Request this order</h2>
+          <p>This saves a demo order request in this browser. You do not have to log in. Do not enter real personal details you want to keep private.</p>
+          <form id="checkout-form" novalidate>
+            <fieldset>
+              <legend>Delivery details</legend>
+              <div class="field">
+                <label for="checkout-name">Full name</label>
+                <input id="checkout-name" name="name" type="text" autocomplete="name" maxlength="60" aria-describedby="checkout-message" required>
+              </div>
+              <div class="field">
+                <label for="checkout-email">Email</label>
+                <input id="checkout-email" name="email" type="email" autocomplete="email" maxlength="80" aria-describedby="checkout-message" required>
+              </div>
+              <div class="field">
+                <label for="checkout-phone">Phone number</label>
+                <input id="checkout-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="9876543210" maxlength="20" aria-describedby="checkout-message" required>
+              </div>
+              <div class="field">
+                <label for="checkout-address">Delivery address</label>
+                <textarea id="checkout-address" name="address" autocomplete="street-address" maxlength="200" aria-describedby="checkout-message" required></textarea>
+              </div>
+            </fieldset>
+            <p id="checkout-message" class="form-message" role="status"></p>
+            <button type="submit" class="btn btn-primary">Submit order request</button>
+          </form>
+        </div>
+
+        <div id="order-confirmation" class="success-notice" tabindex="-1" hidden>
+          <h2>Order request received</h2>
+          <p id="confirm-lead"></p>
+          <p>Order number: <strong id="confirm-order-number"></strong></p>
+          <p>Estimated total: <strong id="confirm-total"></strong></p>
+          <p>No payment was collected. This is not a receipt for a real purchase.</p>
+          <ul id="confirm-items"></ul>
+          <button type="button" class="btn btn-primary" id="continue-shopping">Continue shopping</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Account -->
+    <section id="account-view" class="view" hidden>
+      <div class="wrap">
+        <h1 tabindex="-1">Account</h1>
+        <div class="demo-box">
+          <h2>Student demo login</h2>
+          <p>This is a student demo login, not secure real-world authentication. The page checks the password inside your browser and saves the demo account with localStorage. Anyone with this computer can read it. Do not use a real password.</p>
+          <p><strong>Demo admin email:</strong> admin@oakandhome.test</p>
+          <p><strong>Demo admin password:</strong> admin123</p>
+          <button type="button" class="btn btn-secondary" id="fill-demo-admin">Fill demo admin login</button>
+        </div>
+
+        <div id="logged-in-panel" class="panel" hidden>
+          <h2>Your account</h2>
+          <p id="welcome-text"></p>
+          <p id="role-note"></p>
+          <div class="form-actions">
+            <button type="button" class="btn btn-primary" id="open-admin-from-account" hidden>Open admin dashboard</button>
+            <button type="button" class="btn btn-secondary" id="logout-button">Log out</button>
+          </div>
+        </div>
+
+        <div id="logged-out-panel">
+          <div class="account-grid">
+            <form id="login-form" class="panel" novalidate>
+              <h2>Log in</h2>
+              <div class="field">
+                <label for="login-email">Email</label>
+                <input id="login-email" name="email" type="email" autocomplete="username" maxlength="80" aria-describedby="login-message" required>
+              </div>
+              <div class="field">
+                <label for="login-password">Password</label>
+                <input id="login-password" name="password" type="password" autocomplete="current-password" maxlength="40" aria-describedby="login-message" required>
+              </div>
+              <p id="login-message" class="form-message" role="status"></p>
+              <button type="submit" class="btn btn-primary">Log in</button>
+            </form>
+
+            <form id="register-form" class="panel" novalidate>
+              <h2>Create a demo account</h2>
+              <p class="hint">This creates a customer account in this browser only. It does not create a real shop account.</p>
+              <div class="field">
+                <label for="register-name">Name</label>
+                <input id="register-name" name="name" type="text" autocomplete="name" maxlength="60" aria-describedby="register-message" required>
+              </div>
+              <div class="field">
+                <label for="register-email">Email</label>
+                <input id="register-email" name="email" type="email" autocomplete="email" maxlength="80" aria-describedby="register-message" required>
+              </div>
+              <div class="field">
+                <label for="register-password">Password</label>
+                <input id="register-password" name="password" type="password" autocomplete="new-password" maxlength="40" aria-describedby="register-message" required>
+              </div>
+              <div class="field">
+                <label for="register-confirm">Confirm password</label>
+                <input id="register-confirm" name="confirm" type="password" autocomplete="new-password" maxlength="40" aria-describedby="register-message" required>
+              </div>
+              <p id="register-message" class="form-message" role="status"></p>
+              <button type="submit" class="btn btn-primary">Create account</button>
+            </form>
+          </div>
+        </div>
+
+        <section class="order-history-section">
+          <h2>Order requests saved in this browser</h2>
+          <p class="hint">Because this demo stores orders in the browser, anyone using this computer can see them. They are not sent to a shop.</p>
+          <div id="order-history"></div>
+        </section>
+      </div>
+    </section>
+
+    <!-- Admin -->
+    <section id="admin-view" class="view" hidden>
+      <div class="wrap">
+        <h1 tabindex="-1">Admin dashboard</h1>
+        <p class="notice">Only the demo admin can manage products. Changes stay in this browser after a refresh. They are not sent to a server.</p>
+
+        <div class="panel">
+          <h2 id="product-form-title" tabindex="-1">Add a product</h2>
+          <p class="hint">All fields are required. Use a whole-rupee price. Stock can be 0 when an item is sold out.</p>
+          <form id="product-form" novalidate autocomplete="off" aria-labelledby="product-form-title">
+            <div class="field">
+              <label for="product-name">Product name</label>
+              <input id="product-name" type="text" maxlength="80" aria-describedby="product-form-message" required>
+            </div>
+            <div class="form-row">
+              <div class="field">
+                <label for="product-category">Category</label>
+                <select id="product-category" aria-describedby="product-form-message" required>
+                  <option value="">Choose a category</option>
+                  <option>Living Room</option>
+                  <option>Bedroom</option>
+                  <option>Dining</option>
+                  <option>Office</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="product-price">Price (₹)</label>
+                <input id="product-price" type="number" min="1" max="1000000" step="1" inputmode="numeric" aria-describedby="product-form-message" required>
+              </div>
+              <div class="field">
+                <label for="product-stock">Stock</label>
+                <input id="product-stock" type="number" min="0" max="1000" step="1" inputmode="numeric" aria-describedby="product-form-message" required>
+              </div>
+            </div>
+            <div class="field">
+              <label for="product-description">Description</label>
+              <textarea id="product-description" maxlength="400" aria-describedby="product-form-message" required></textarea>
+            </div>
+            <p id="product-form-message" class="form-message" role="status"></p>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary" id="product-save-button">Add product</button>
+              <button type="button" class="btn btn-secondary" id="product-cancel-edit" hidden>Cancel edit</button>
+            </div>
+          </form>
+        </div>
+
+        <h2>Current products</h2>
+        <div id="admin-product-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="wrap footer-grid">
+      <div>
+        <strong>Oak &amp; Home</strong>
+        <p>Warm wooden furniture for everyday rooms.</p>
+      </div>
+      <div>
+        <p>This is a first-year student demo from 2026. It is not a real store.</p>
+        <p>Accounts, reviews, the cart, and order requests stay in this browser only. No payment is collected.</p>
+      </div>
+    </div>
+  </footer>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <noscript>
+    <p class="notice wrap">Oak &amp; Home needs JavaScript turned on to show the catalogue, cart, and demo login.</p>
+  </noscript>
+
+  <!-- The script is at the bottom so the HTML above already exists when it runs. -->
+  <script src="script.js"></script>
+</body>
+</html>
